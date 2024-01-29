@@ -33,10 +33,13 @@ class User:
         self.__refresh_token = response.json()["refreshToken"]
         return response
 
+    def get_access_token(self):
+        return self.__access_token
+
     @allure.step("Изменить данные пользователя {self.login}")
     def update_user(self):
-        return requests.post(url=ep.EP_USER, auth=self.__access_token)
+        return requests.patch(url=ep.EP_USER, auth=self.get_access_token())
 
     @allure.step("Удалить пользователя {self.login}")
     def delete_user(self):
-        return requests.delete(url=ep.EP_USER, auth=self.__access_token)
+        return requests.delete(url=ep.EP_USER, auth=self.get_access_token())
