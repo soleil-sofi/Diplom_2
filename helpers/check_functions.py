@@ -59,3 +59,71 @@ class CheckUser(BaseCheck):
                 }
             }
         }
+
+
+class CheckOrder(BaseCheck):
+    def __init__(self, status_code: int = None, error_msg: str = None):
+        BaseCheck.__init__(self, status_code, error_msg)
+
+    @staticmethod
+    def body_order_schema():
+        return {
+            "type": "object",
+            "required": [
+                "success",
+                "order",
+                "name"
+            ],
+            "properties": {
+                "success": {"type": "boolean", "const": True},
+                "name": {"type": "string"},
+                "order": {
+                    "type": "object",
+                    "required": [
+                        "number"
+                    ],
+                    "properties": {
+                        "number": {"type": "integer"}
+                    }
+                }
+            }
+        }
+
+    @staticmethod
+    def body_personal_orders_schema():
+        return {
+            "type": "object",
+            "required": [
+                "success",
+                "orders",
+                "total",
+                "totalToday"
+            ],
+            "properties": {
+                "success": {"type": "boolean", "const": True},
+                "total": {"type": "integer"},
+                "totalToday": {"type": "integer"},
+                "orders": {
+                    "type": "array",
+                    "maxItems": 50,
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "ingredients",
+                            "status",
+                            "number",
+                            "createdAt",
+                            "updatedAt"
+                        ],
+                        "properties": {
+                            "_id": {"type": "string"},
+                            "status": {"type": "string"},
+                            "number": {"type": "integer"},
+                            "createdAt": {"type": "string"},
+                            "updatedAt": {"type": "string"},
+                            "ingredients": {"type": "array", "items": {"type": "string"}}
+                        }
+                    }
+                }
+            }
+        }
