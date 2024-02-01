@@ -7,7 +7,8 @@ from helpers.check_functions import CheckUser
 from helpers import data_generation_functions as gen
 
 
-class TestUser:
+@allure.suite("Тесты создания пользователя")
+class TestCreateUser:
     @allure.title("Создание уникального пользователя")
     def test_create_unique_user(self):
         email = gen.generate_email()
@@ -41,6 +42,9 @@ class TestUser:
         check_response.check_status_code(response)
         check_response.assert_schema_is_valid(response.json(), check_response.error_shema())
 
+
+@allure.suite("Тесты логина пользователя")
+class TestLoginUser:
     @allure.title("Логин существующего пользователя")
     def test_login_existed_user(self, create_new_user):
         name = create_new_user[2]["user"]["name"]
@@ -63,6 +67,9 @@ class TestUser:
         check_response.check_status_code(response)
         check_response.assert_schema_is_valid(response.json(), check_response.error_shema())
 
+
+@allure.suite("Тесты редактирования пользователя")
+class TestUpdateUser:
     @allure.title("Редактирование авторизованного пользователя")
     def test_update_user(self, create_new_user):
         name = gen.generate_random_string()
