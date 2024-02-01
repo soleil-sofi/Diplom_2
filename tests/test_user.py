@@ -50,7 +50,6 @@ class TestLoginUser:
         name = create_new_user[2]["user"]["name"]
         user = User(email=create_new_user[0], password=create_new_user[1], name=name)
         response = user.login_user()
-        print(response.json())
         check_response = CheckUser(status_code=200, email=create_new_user[0], name=name)
         check_response.check_status_code(response)
         check_response.assert_schema_is_valid(response.json(), check_response.body_user_schema())
